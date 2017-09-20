@@ -1,0 +1,9 @@
+{
+  "extends": "eslint-config-egg",
+  "globals": {
+    "app": true,
+    "createApp": true,
+    "createCluster": true,
+    "mm": true
+  }
+}
