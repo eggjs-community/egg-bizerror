@@ -53,12 +53,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eggjs/egg-bizerror.git"
+    "url": "git+https://github.com/beliefgp/egg-bizerror.git"
   },
   "bugs": {
-    "url": "https://github.com/eggjs/egg/issues"
+    "url": "https://github.com/beliefgp/egg-bizerror/issues"
   },
-  "homepage": "https://github.com/eggjs/egg-bizerror#readme",
+  "homepage": "https://github.com/beliefgp/egg-bizerror#readme",
   "author": "beliefgp",
   "license": "MIT"
 }
