@@ -127,7 +127,7 @@ module.exports = app => {
 module.exports = app => {
   app.on('responseBizError', (ctx, error) => {
     if (error.addition && error.addition.dizType === 'getUser') {
-      
+      errorCount++;
     }
   });
 };
