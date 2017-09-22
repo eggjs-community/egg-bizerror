@@ -31,7 +31,7 @@ $ npm i egg-bizerror --save
 ## Usage
 
 ```js
-// {app_root}/config/plugin.js
+// config/plugin.js
 exports.bizerror = {
   enable: true,
   package: 'egg-bizerror',
@@ -61,7 +61,7 @@ module.exports = {
   }
   '404': (ctx, error) => {
     ctx.redirect('/404.html');
-    retrurn false;
+    return false; // you can return false, break default logic
   }
 }
 ```
@@ -72,13 +72,19 @@ module.exports = {
 
   throw an biz error
 
-  * code - error code, read errorcode config with this value.
+  * code - `error.code`, read errorcode config with this value when handle error.
   * error - error message or `Error` object.
-  * addition - extra data, can help you solve the problem.
+  * addition - `error.addition`, extra data, can help you solve the problem.
   * addition.code - it will cover `error.code`.
-  * addition.log - it will cover `error.log`. if false, not log this error, defalut true.
+  * addition.log - `error.log`, if false, not log this error, defalut true.
 
 ```js
+// throw an error object
+// error.code
+// error.message
+// error.log
+// error.addition
+// error.bizError
 ctx.throwBizError('system_exception')
 ctx.throwBizError(new Error())
 ctx.throwBizError({ code: 'system_exception', log: false })
@@ -100,6 +106,8 @@ ctx.throwBizError('system_exception', 'error message', { userId: 1, log: false }
 
   you can add listener to do some thing.
 
+* app.BizErrorHandler - default handler class, you can override it
+
 ## Example
 
 ```js
@@ -112,6 +120,7 @@ module.exports = app => {
         userInfo = yield this.getUser();
       } catch (error) {
         ctx.responseBizError(error, { bizError: true, code: 'USER_NOT_EXIST' })
+        return;
       }
       
       if (!userInfo || !userInfo.id) {
@@ -124,12 +133,26 @@ module.exports = app => {
 };
 
 // app.js
+// add handle logic
 module.exports = app => {
   app.on('responseBizError', (ctx, error) => {
     if (error.addition && error.addition.dizType === 'getUser') {
       errorCount++;
     }
   });
+};
+
+// app.js
+// override default handler
+module.exports = app => {
+  app.BizErrorHandler = class extends app.BizErrorHandler {
+    json(ctx, error, responseInfo) {
+      ctx.body = {
+        code: responseInfo.code,
+        msg: responseInfo.message,
+      };
+    }
+  }
 };
 
 ```

@@ -64,12 +64,32 @@ describe('test/bizerror.test.js', () => {
         .expect({ code: 'USER_NOT_EXIST', message: 'user not exsit', errorAddition: { id: 1, step: 2 } });
     });
 
-    it('should handle biz error with responseNoBizError', () => {
+    it('should handle biz error with responseBizError', () => {
       return request(app.callback())
         .get('/responseBizError')
         .set('Accept', 'application/json')
         .expect(500)
         .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', errorAddition: { id: 1, step: 2 } });
+    });
+  });
+
+  describe('override bizerror handler', () => {
+    createApp('apps/bizerror-override-handler');
+
+    it('should handle biz error with throwBizError', () => {
+      return request(app.callback())
+        .get('/throwError')
+        .set('Accept', 'application/json')
+        .expect(200)
+        .expect({ code: 'USER_NOT_EXIST', msg: 'user not exsit', override: true });
+    });
+
+    it('should handle biz error with responseBizError', () => {
+      return request(app.callback())
+        .get('/responseBizError')
+        .set('Accept', 'application/json')
+        .expect(500)
+        .expect({ code: 'SYSTEM_EXCEPTION', msg: 'System Exception', override: true });
     });
   });
 });
