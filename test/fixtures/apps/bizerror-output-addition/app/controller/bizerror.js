@@ -13,5 +13,9 @@ module.exports = app => {
         this.ctx.responseBizError(error, { bizError: true, id: 1, step: 2 });
       }
     }
+
+    * unexpectedError() {
+      throw new Error('this is a unexpected error');
+    }
   };
 };

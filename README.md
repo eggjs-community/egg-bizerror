@@ -45,6 +45,7 @@ exports.bizerror = {
 exports.bizerror = {
   disableDefaultHandler: false, // disable default error handler
   outputErrorAddition: false, // return error addition to user
+  responseAllException: false, // handle all exception, not only bizError exception
 };
 
 // config/errorcode.js
@@ -72,7 +73,7 @@ module.exports = {
 
   throw an biz error
 
-  * code - `error.code`, read errorcode config with this value when handle error.
+  * code - `error.code`, default `SYSTEM_EXCEPTION`, read errorcode config with this value when handle error.
   * error - error message or `Error` object.
   * addition - `error.addition`, extra data, can help you solve the problem.
   * addition.code - it will cover `error.code`.

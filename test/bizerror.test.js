@@ -71,6 +71,14 @@ describe('test/bizerror.test.js', () => {
         .expect(500)
         .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', errorAddition: { id: 1, step: 2 } });
     });
+
+    it('should handle unexpectedError error', () => {
+      return request(app.callback())
+        .get('/unexpectedError')
+        .set('Accept', 'application/json')
+        .expect(500)
+        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', errorAddition: {} });
+    });
   });
 
   describe('override bizerror handler', () => {

@@ -1,6 +1,7 @@
 'use strict';
 
 const is = require('is-type-of');
+const DEFAULT_CODE = 'SYSTEM_EXCEPTION';
 
 module.exports = {
   /**
@@ -22,7 +23,7 @@ module.exports = {
    *
    */
   throwBizError(code, error, addition) {
-    const args = [ 'SYSTEM_EXCEPTION', '', null ];
+    const args = [ DEFAULT_CODE, '', null ];
     if (is.error(code)) {
       args[1] = code;
       if (is.object(error)) {
@@ -69,7 +70,7 @@ module.exports = {
     }
 
     // not biz error, throw
-    if (error.bizError !== true && (addition || {}).bizError !== true) {
+    if (error.bizError !== true && (addition || {}).bizError !== true && this.app.config.bizerror.responseAllException !== true) {
       Error.captureStackTrace(error, module.exports.responseBizError);
       throw error;
     }
@@ -81,19 +82,21 @@ module.exports = {
 };
 
 function extendErrorProperty(error, ...properties) {
+  // set code
+  error.code = error.code || DEFAULT_CODE;
+
   /* istanbul ignore if */
-  if (properties.length === 0) {
-    return;
-  }
+  if (properties.length === 0) return;
+
+  error.addition = error.addition || {};
 
   const addition = Object.assign({}, error.addition, ...properties);
 
-  [ 'code', 'bizError', 'log' ].forEach(property => {
-    if (addition[property]) {
-      error[property] = addition[property];
-      delete addition[property];
-    }
-  });
+  Object.keys(addition).forEach(key => {
+    const target = [ 'code', 'bizError', 'log' ].includes(key)
+      ? error
+      : error.addition;
 
-  error.addition = addition;
+    target[key] = addition[key];
+  });
 }
