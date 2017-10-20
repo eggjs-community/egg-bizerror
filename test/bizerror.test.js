@@ -14,6 +14,14 @@ describe('test/bizerror.test.js', () => {
         .expect({ code: 'USER_NOT_EXIST', message: 'user not exsit' });
     });
 
+    it('should handle biz error with throwBizError and jsonp', () => {
+      return request(app.callback())
+        .get('/jsonp/throwError?_callback=fn')
+        .set('Accept', 'application/js')
+        .expect(200)
+        .expect('/**/ typeof fn === \'function\' && fn({"code":"USER_NOT_EXIST","message":"user not exsit"});');
+    });
+
     it('should return 404 with config is function', () => {
       return request(app.callback())
         .get('/notFoundData')
