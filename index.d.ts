@@ -1,3 +1,5 @@
+// 表明依赖egg，否则会覆盖egg的声明
+import 'egg';
 declare module 'egg' {
   export interface Context {
     throwBizError(code: string | number, error?: Error | string, addition?: { [prop: string]: any}): never;
