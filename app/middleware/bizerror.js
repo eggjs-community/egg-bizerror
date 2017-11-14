@@ -1,11 +1,11 @@
 'use strict';
 
 module.exports = () => {
-  return function* (next) {
+  return async function(ctx, next) {
     try {
-      yield next;
+      await next();
     } catch (error) {
-      this.responseBizError(error);
+      ctx.responseBizError(error);
     }
   };
 };

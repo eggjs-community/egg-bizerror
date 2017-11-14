@@ -3,7 +3,9 @@
 module.exports = app => {
   const jsonp = app.jsonp();
 
-  app.get('/throwError', app.controller.bizerror.throwError);
+  app.get('/throwError', async function(ctx, next) {
+    await next();
+  }, app.controller.bizerror.throwError);
   app.get('/responseBizError', app.controller.bizerror.responseBizError);
   app.get('/responseNoBizError', app.controller.bizerror.responseNoBizError);
   app.get('/notFoundData', app.controller.bizerror.notFoundData);

@@ -2,11 +2,11 @@
 
 module.exports = app => {
   return class extends app.Controller {
-    * throwError() {
+    async throwError() {
       this.ctx.throwBizError('USER_NOT_EXIST');
     }
 
-    * responseBizError() {
+    async responseBizError() {
       try {
         throw new Error('this is a biz error');
       } catch (error) {
@@ -14,19 +14,19 @@ module.exports = app => {
       }
     }
 
-    * responseNoBizError() {
+    async responseNoBizError() {
       throw new Error('this is not a biz error');
     }
 
-    * redirectErrorPage() {
+    async redirectErrorPage() {
       this.ctx.throwBizError('PARAMS_ERROR');
     }
 
-    * notFoundData() {
+    async notFoundData() {
       this.ctx.throwBizError('NOT_FOUND_DATA');
     }
 
-    * notFoundPage() {
+    async notFoundPage() {
       this.ctx.throwBizError('NOT_FOUND_PAGE');
     }
   };

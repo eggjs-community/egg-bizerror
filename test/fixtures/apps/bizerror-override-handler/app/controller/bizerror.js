@@ -2,11 +2,11 @@
 
 module.exports = app => {
   return class extends app.Controller {
-    * throwError() {
+    async throwError() {
       this.ctx.throwBizError('USER_NOT_EXIST');
     }
 
-    * responseBizError() {
+    async responseBizError() {
       try {
         throw new Error('this is a biz error');
       } catch (error) {
