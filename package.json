@@ -18,7 +18,8 @@
     "lib",
     "config",
     "app",
-    "app.js"
+    "app.js",
+    "index.d.ts"
   ],
   "types": "index.d.ts",
   "dependencies": {
