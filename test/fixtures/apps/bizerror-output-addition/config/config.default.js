@@ -3,5 +3,5 @@
 exports.keys = '123456';
 exports.bizerror = {
   outputErrorAddition: true,
-  responseAllException: true,
+  interceptAllError: true,
 };

@@ -69,7 +69,7 @@ describe('test/bizerror.test.js', () => {
         .get('/throwError')
         .set('Accept', 'application/json')
         .expect(200)
-        .expect({ code: 'USER_NOT_EXIST', message: 'user not exsit', errorAddition: { id: 1, step: 2 } });
+        .expect({ code: 'USER_NOT_EXIST', message: 'user not exsit', addition: { id: 1, step: 2 } });
     });
 
     it('should handle biz error with responseBizError', () => {
@@ -77,7 +77,7 @@ describe('test/bizerror.test.js', () => {
         .get('/responseBizError')
         .set('Accept', 'application/json')
         .expect(500)
-        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', errorAddition: { id: 1, step: 2 } });
+        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', addition: { id: 1, step: 2 } });
     });
 
     it('should handle unexpectedError error', () => {
@@ -85,7 +85,7 @@ describe('test/bizerror.test.js', () => {
         .get('/unexpectedError')
         .set('Accept', 'application/json')
         .expect(500)
-        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', errorAddition: {} });
+        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', addition: {} });
     });
   });
 

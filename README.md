@@ -43,9 +43,9 @@ exports.bizerror = {
 ```js
 // config/config.default.js
 exports.bizerror = {
-  disableDefaultHandler: false, // disable default error handler
+  breakDefault: false, // disable default error handler
   outputErrorAddition: false, // return error addition to user
-  responseAllException: false, // handle all exception, not only bizError exception
+  interceptAllError: false, // handle all exception, not only bizError exception
 };
 
 // config/errorcode.js
@@ -115,10 +115,10 @@ ctx.throwBizError('system_exception', 'error message', { userId: 1, log: false }
 // app/service/user.js
 module.exports = app => {
   class User extends app.Service {
-    * getUserId() {
+    async getUserId() {
       let userInfo;
       try {
-        userInfo = yield this.getUser();
+        userInfo = await this.getUser();
       } catch (error) {
         ctx.responseBizError(error, { bizError: true, code: 'USER_NOT_EXIST' })
         return;
@@ -137,7 +137,7 @@ module.exports = app => {
 // add handle logic
 module.exports = app => {
   app.on('responseBizError', (ctx, error) => {
-    if (error.addition && error.addition.dizType === 'getUser') {
+    if (error.addition && error.addition.bizType === 'getUser') {
       errorCount++;
     }
   });
@@ -147,10 +147,10 @@ module.exports = app => {
 // override default handler
 module.exports = app => {
   app.BizErrorHandler = class extends app.BizErrorHandler {
-    json(ctx, error, responseInfo) {
+    json(ctx, error, config) {
       ctx.body = {
-        code: responseInfo.code,
-        msg: responseInfo.message,
+        code: config.code,
+        msg: config.message,
       };
     }
   }

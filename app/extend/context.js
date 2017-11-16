@@ -51,9 +51,12 @@ module.exports = {
       error = new Error(error);
     }
 
-    extendErrorProperty(error, { code, bizError: true }, addition);
-
     Error.captureStackTrace(error, module.exports.throwBizError);
+
+    // bizerror not repeat processing
+    if (error.bizError !== true) {
+      extendErrorProperty(error, { code, bizError: true }, addition);
+    }
 
     throw error;
   },
@@ -70,7 +73,7 @@ module.exports = {
     }
 
     // not biz error, throw
-    if (error.bizError !== true && (addition || {}).bizError !== true && this.app.config.bizerror.responseAllException !== true) {
+    if (error.bizError !== true && (addition || {}).bizError !== true && this.app.config.bizerror.interceptAllError !== true) {
       Error.captureStackTrace(error, module.exports.responseBizError);
       throw error;
     }
