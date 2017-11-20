@@ -3,7 +3,7 @@
 const request = require('supertest');
 
 describe('test/bizerror.test.js', () => {
-  describe('response error and not ouput addition', () => {
+  describe('response error and not ouput bizParams', () => {
     createApp('apps/bizerror-test');
 
     it('should handle biz error with throwBizError', () => {
@@ -61,15 +61,15 @@ describe('test/bizerror.test.js', () => {
     });
   });
 
-  describe('response error and ouput addition', () => {
-    createApp('apps/bizerror-output-addition');
+  describe('response error and ouput bizParams', () => {
+    createApp('apps/bizerror-output-bizparams');
 
     it('should handle biz error with throwBizError', () => {
       return request(app.callback())
         .get('/throwError')
         .set('Accept', 'application/json')
         .expect(200)
-        .expect({ code: 'USER_NOT_EXIST', message: 'user not exsit', addition: { id: 1, step: 2 } });
+        .expect({ code: 'USER_NOT_EXIST', message: 'user not exsit', errors: { id: 1, step: 2 } });
     });
 
     it('should handle biz error with responseBizError', () => {
@@ -77,7 +77,7 @@ describe('test/bizerror.test.js', () => {
         .get('/responseBizError')
         .set('Accept', 'application/json')
         .expect(500)
-        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', addition: { id: 1, step: 2 } });
+        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', errors: { id: 1, step: 2 } });
     });
 
     it('should handle unexpectedError error', () => {
@@ -85,7 +85,7 @@ describe('test/bizerror.test.js', () => {
         .get('/unexpectedError')
         .set('Accept', 'application/json')
         .expect(500)
-        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception', addition: {} });
+        .expect({ code: 'SYSTEM_EXCEPTION', message: 'System Exception' });
     });
   });
 

@@ -2,10 +2,10 @@
 
 module.exports = app => {
   app.BizErrorHandler = class extends app.BizErrorHandler {
-    json(ctx, error, responseInfo) {
+    json(ctx, error, config) {
       ctx.body = {
-        code: responseInfo.code,
-        msg: responseInfo.message,
+        code: config.code,
+        msg: config.message,
         override: true,
       };
     }

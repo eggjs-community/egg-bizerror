@@ -33,7 +33,7 @@ describe('test/app/extend/throwerror.test.js', () => {
       );
     });
 
-    it('should throw error with addition', () => {
+    it('should throw error with bizParams', () => {
       const ctx = app.mockContext();
 
       assert.throws(
@@ -41,8 +41,8 @@ describe('test/app/extend/throwerror.test.js', () => {
         error => {
           assert.equal(error.code, 'USER_NOT_EXIST');
           assert.equal(error.bizError, true);
-          assert.equal(error.addition.id, 1);
-          assert.equal(error.addition.message, 'this is an error');
+          assert.equal(error.bizParams.id, 1);
+          assert.equal(error.bizParams.message, 'this is an error');
           return true;
         }
       );
@@ -76,7 +76,7 @@ describe('test/app/extend/throwerror.test.js', () => {
       );
     });
 
-    it('should throw error with code and addition', () => {
+    it('should throw error with code and bizParams', () => {
       const ctx = app.mockContext();
 
       assert.throws(
@@ -84,13 +84,13 @@ describe('test/app/extend/throwerror.test.js', () => {
         error => {
           assert.equal(error.code, 'USER_NOT_EXIST');
           assert.equal(error.bizError, true);
-          assert.equal(error.addition.id, 1);
+          assert.equal(error.bizParams.id, 1);
           return true;
         }
       );
     });
 
-    it('should throw error with error object and addition', () => {
+    it('should throw error with error object and bizParams', () => {
       const ctx = app.mockContext();
 
       assert.throws(
@@ -99,13 +99,13 @@ describe('test/app/extend/throwerror.test.js', () => {
           assert.equal(error.code, 'SYSTEM_EXCEPTION');
           assert.equal(error.bizError, true);
           assert.equal(error.message, 'this is an error');
-          assert.equal(error.addition.id, 1);
+          assert.equal(error.bizParams.id, 1);
           return true;
         }
       );
     });
 
-    it('should throw error with code and error message and addition', () => {
+    it('should throw error with code and error message and bizParams', () => {
       const ctx = app.mockContext();
 
       assert.throws(
@@ -114,13 +114,13 @@ describe('test/app/extend/throwerror.test.js', () => {
           assert.equal(error.code, 'USER_NOT_EXIST');
           assert.equal(error.bizError, true);
           assert.equal(error.message, 'this is an error');
-          assert.equal(error.addition.id, 1);
+          assert.equal(error.bizParams.id, 1);
           return true;
         }
       );
     });
 
-    it('should throw error with code and error message and addition', () => {
+    it('should throw error with code and error message and bizParams', () => {
       const ctx = app.mockContext();
 
       assert.throws(
@@ -129,7 +129,7 @@ describe('test/app/extend/throwerror.test.js', () => {
           assert.equal(error.code, 'USER_NOT_EXIST');
           assert.equal(error.bizError, true);
           assert.equal(error.message, 'this is an error');
-          assert.equal(error.addition.id, 1);
+          assert.equal(error.bizParams.id, 1);
           return true;
         }
       );
@@ -152,7 +152,7 @@ describe('test/app/extend/throwerror.test.js', () => {
         assert.equal(error.code, 'USER_NOT_EXIST');
         assert.equal(error.message, 'this is an error');
         assert.equal(error.bizError, true);
-        assert.equal(error.addition.id, 1);
+        assert.equal(error.bizParams.id, 1);
       });
 
       ctx.responseBizError(new Error('this is an error'), { bizError: true, code: 'USER_NOT_EXIST', id: 1 });

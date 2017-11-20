@@ -2,6 +2,6 @@
 
 exports.keys = '123456';
 exports.bizerror = {
-  outputErrorAddition: true,
+  sendClientAllParams: true,
   interceptAllError: true,
 };

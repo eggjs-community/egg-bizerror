@@ -8,7 +8,7 @@ module.exports = {
    * throw a biz error
    * @param {String} code  error code, default system_exception
    * @param {Error|String} error error or mesaage, default 'SYSTEM EXCEPTION'
-   * @param {Object} addition additive attribute
+   * @param {Object} bizParams additive attribute
    * @public
    *
    * @example
@@ -22,7 +22,7 @@ module.exports = {
    *  ctx.throwBizError('system_exception', 'error message', { id: 1, log: false })
    *
    */
-  throwBizError(code, error, addition) {
+  throwBizError(code, error, bizParams) {
     const args = [ DEFAULT_CODE, '', null ];
     if (is.error(code)) {
       args[1] = code;
@@ -39,13 +39,13 @@ module.exports = {
         if (is.error(error) || is.string(error)) {
           args[1] = error;
         }
-        if (is.object(addition)) {
-          args[2] = addition;
+        if (is.object(bizParams)) {
+          args[2] = bizParams;
         }
       }
     }
 
-    ([ code, error, addition ] = args);
+    ([ code, error, bizParams ] = args);
 
     if (!is.error(error)) {
       error = new Error(error);
@@ -55,7 +55,7 @@ module.exports = {
 
     // bizerror not repeat processing
     if (error.bizError !== true) {
-      extendErrorProperty(error, { code, bizError: true }, addition);
+      extendErrorProperty(error, { code, bizError: true }, bizParams);
     }
 
     throw error;
@@ -64,21 +64,21 @@ module.exports = {
   /**
    * handle error
    * @param {Error} error error
-   * @param {Object} addition additive attribute
+   * @param {Object} bizParams additive attribute
    */
-  responseBizError(error, addition) {
+  responseBizError(error, bizParams) {
     /* istanbul ignore if */
     if (!is.error(error)) {
       return;
     }
 
     // not biz error, throw
-    if (error.bizError !== true && (addition || {}).bizError !== true && this.app.config.bizerror.interceptAllError !== true) {
+    if (error.bizError !== true && (bizParams || {}).bizError !== true && this.app.config.bizerror.interceptAllError !== true) {
       Error.captureStackTrace(error, module.exports.responseBizError);
       throw error;
     }
 
-    extendErrorProperty(error, addition);
+    extendErrorProperty(error, bizParams);
 
     this.app.emit('responseBizError', this, error);
   },
@@ -91,15 +91,15 @@ function extendErrorProperty(error, ...properties) {
   /* istanbul ignore if */
   if (properties.length === 0) return;
 
-  error.addition = error.addition || {};
+  error.bizParams = error.bizParams || {};
 
-  const addition = Object.assign({}, error.addition, ...properties);
+  const bizParams = Object.assign({}, ...properties);
 
-  Object.keys(addition).forEach(key => {
+  Object.keys(bizParams).forEach(key => {
     const target = [ 'code', 'bizError', 'log' ].includes(key)
       ? error
-      : error.addition;
+      : error.bizParams;
 
-    target[key] = addition[key];
+    target[key] = bizParams[key];
   });
 }

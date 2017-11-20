@@ -44,7 +44,7 @@ exports.bizerror = {
 // config/config.default.js
 exports.bizerror = {
   breakDefault: false, // disable default error handler
-  outputErrorAddition: false, // return error addition to user
+  sendClientAllParams: false, // return error bizParams to user
   interceptAllError: false, // handle all exception, not only bizError exception
 };
 
@@ -69,22 +69,23 @@ module.exports = {
 
 ## API
 
-* ctx.throwBizError(code, error, addition)
+* ctx.throwBizError(code, error, bizParams)
 
   throw an biz error
 
   * code - `error.code`, default `SYSTEM_EXCEPTION`, read errorcode config with this value when handle error.
   * error - error message or `Error` object.
-  * addition - `error.addition`, extra data, can help you solve the problem.
-  * addition.code - it will cover `error.code`.
-  * addition.log - `error.log`, if false, not log this error, defalut true.
+  * bizParams - `error.bizParams`, extra data, can help you solve the problem.
+  * bizParams.sendClient - object, this object will copy to the property `errors` of json object and send to client.
+  * bizParams.code - it will cover `error.code`.
+  * bizParams.log - `error.log`, if false, not log this error, defalut true.
 
 ```js
 // throw an error object
 // error.code
 // error.message
 // error.log
-// error.addition
+// error.bizParams
 // error.bizError
 ctx.throwBizError('system_exception')
 ctx.throwBizError(new Error())
@@ -96,12 +97,12 @@ ctx.throwBizError(new Error(), { userId: 1, log: false })
 ctx.throwBizError('system_exception', 'error message', { userId: 1, log: false })
 ```
 
-* ctx.responseBizError(error, addition)
+* ctx.responseBizError(error, bizParams)
 
   handle the error
 
-  * addition - supports the above
-  * addition.bizError - if you want the plugin to handle this error, you must be set `bizError: true`, otherwise, the plugin will throw this error.
+  * bizParams - supports the above
+  * bizParams.bizError - if you want the plugin to handle this error, you must be set `bizError: true`, otherwise, the plugin will throw this error.
 
 * app.on('responseBizError', (ctx, error) => {})
 
@@ -137,7 +138,7 @@ module.exports = app => {
 // add handle logic
 module.exports = app => {
   app.on('responseBizError', (ctx, error) => {
-    if (error.addition && error.addition.bizType === 'getUser') {
+    if (error.bizParams && error.bizParams.bizType === 'getUser') {
       errorCount++;
     }
   });
