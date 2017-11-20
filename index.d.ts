@@ -1,12 +1,22 @@
 // 表明依赖egg，否则会覆盖egg的声明
 import 'egg';
-declare module 'egg' {
-  interface Context {
-    throwBizError(code: string | number, error?: Error | string, addition?: { [prop: string]: any}): never;
-    throwBizError(code: string | number, addition: { [prop: string]: any}): never;
-    throwBizError(error: Error, addition?: { [prop: string]: any}): never;
-    throwBizError(addition: { [prop: string]: any}): never;
 
-    responseBizError(error: Error, addition?: { [prop: string]: any}): void;
+declare module 'egg' {
+
+  interface bizConfig {
+    code?: string | number; 
+    bizError?: boolean;
+    log?: boolean;
+    sendClient?: any;
+    [prop: string]: any;
+  }
+
+  interface Context {
+    throwBizError(code: string | number, error?: Error | string, bizParams?: bizConfig): never;
+    throwBizError(code: string | number, bizParams: bizConfig): never;
+    throwBizError(error: Error, bizParams?: bizConfig): never;
+    throwBizError(bizParams: bizConfig): never;
+
+    responseBizError(error: Error, bizParams?: bizConfig): void;
   }
 }

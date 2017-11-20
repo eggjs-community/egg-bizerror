@@ -1,6 +1,6 @@
 {
   "name": "egg-bizerror",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "handle biz error for egg",
   "eggPlugin": {
     "name": "bizerror",
@@ -14,6 +14,7 @@
     "egg-plugin"
   ],
   "files": [
+    "index.d.ts",
     "index.js",
     "lib",
     "config",
