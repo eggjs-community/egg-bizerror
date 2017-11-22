@@ -49,9 +49,8 @@ module.exports = {
 
     if (!is.error(error)) {
       error = new Error(error);
+      Error.captureStackTrace(error, module.exports.throwBizError);
     }
-
-    Error.captureStackTrace(error, module.exports.throwBizError);
 
     // bizerror not repeat processing
     if (error.bizError !== true) {
@@ -74,7 +73,6 @@ module.exports = {
 
     // not biz error, throw
     if (error.bizError !== true && (bizParams || {}).bizError !== true && this.app.config.bizerror.interceptAllError !== true) {
-      Error.captureStackTrace(error, module.exports.responseBizError);
       throw error;
     }
 

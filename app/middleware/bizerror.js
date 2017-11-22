@@ -5,7 +5,6 @@ module.exports = () => {
     try {
       await next();
     } catch (error) {
-      Error.captureStackTrace(error, bizErrorMiddleware);
       ctx.responseBizError(error);
     }
   };
