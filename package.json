@@ -1,6 +1,6 @@
 {
   "name": "egg-bizerror",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "handle biz error for egg",
   "eggPlugin": {
     "name": "bizerror",
