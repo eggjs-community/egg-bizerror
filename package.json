@@ -27,12 +27,12 @@
   },
   "devDependencies": {
     "autod": "^3.0.1",
-    "autod-egg": "^1.0.0",
-    "egg": "^1.11.0",
-    "egg-bin": "^4.3.5",
+    "autod-egg": "^1.1.0",
+    "egg": "^1.13.1",
+    "egg-bin": "^4.4.0",
     "egg-ci": "^1.8.0",
-    "egg-mock": "^3.13.1",
-    "eslint": "^4.11.0",
+    "egg-mock": "^3.14.1",
+    "eslint": "^4.18.2",
     "eslint-config-egg": "^5.1.1",
     "ko-sleep": "^1.0.3",
     "supertest": "^3.0.0"
