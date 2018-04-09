@@ -52,8 +52,10 @@ exports.bizerror = {
 module.exports = {
   'USER_NOT_EXIST': {
     status: 400,
+    code: '400' // override code value
     message: 'can`t find user info',
     errorPageUrl: '', // app will redirect this url when accepts is html 
+    addtion1: 'a', // any, will return to browser
   },
   'NOT_FOUND': {
     errorPageUrl: (ctx, error) => {

@@ -44,16 +44,18 @@ exports.bizerror = {
 // config/config.default.js
 exports.bizerror = {
   breakDefault: false, // 全局关闭默认处理逻辑
-  sendClientAllParams: false, // 输出所有的bizParams至浏览器，将挂载在json对象的errors属性上。
-  interceptAllError: false, // 拦截所有的异常，默认是只拦截有error.bizError=true标记的异常
+  sendClientAllParams: false, // 输出所有的 bizParams 至浏览器，将挂载在 json 对象的 errors 属性上。
+  interceptAllError: false, // 拦截所有的异常，默认是只拦截有 error.bizError=true 标记的异常
 };
 
 // config/errorcode.js
 module.exports = {
   'USER_NOT_EXIST': {
     status: 400,
+    code: '400' // 重写返回的 code 值
     message: 'can`t find user info',
-    errorPageUrl: '', // 当请求头Accept是html时，将302跳转至该链接 
+    errorPageUrl: '', // 当请求头 Accept 是 html 时，将302跳转至该链接 
+    addtion1: 'a', // 多余配置信息，将附加在结果中输出给浏览器
   },
   'NOT_FOUND': {
     errorPageUrl: (ctx, error) => {
